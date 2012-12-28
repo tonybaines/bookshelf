@@ -6,7 +6,7 @@
 GET     /                           controllers.Application.index
 
 # Bookshelf
-GET     /books                      controllers.Book.index
+GET     /books                      controllers.BookController.index
 
 
 # Map static resources from the /public folder to the /assets URL path

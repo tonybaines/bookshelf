@@ -8,7 +8,7 @@ import play.api.libs.json.{JsValue, Json}
 class BookControllerSpec extends Specification{
   "The Books controller" should {
     "respond to the index Action" in {
-      val result = controllers.Book.index()(FakeRequest())
+      val result = controllers.BookController.index()(FakeRequest())
       status(result) must equalTo(OK)
 
       // Parse the JSON string back into objects

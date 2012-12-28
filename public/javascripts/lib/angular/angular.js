@@ -6993,11 +6993,11 @@ function $RouteProvider(){
        <file name="index.html">
          <div ng-controller="MainCntl">
            Choose:
-           <a href="Book/Moby">Moby</a> |
-           <a href="Book/Moby/ch/1">Moby: Ch1</a> |
-           <a href="Book/Gatsby">Gatsby</a> |
-           <a href="Book/Gatsby/ch/4?key=value">Gatsby: Ch4</a> |
-           <a href="Book/Scarlet">Scarlet Letter</a><br/>
+           <a href="BookController/Moby">Moby</a> |
+           <a href="BookController/Moby/ch/1">Moby: Ch1</a> |
+           <a href="BookController/Gatsby">Gatsby</a> |
+           <a href="BookController/Gatsby/ch/4?key=value">Gatsby: Ch4</a> |
+           <a href="BookController/Scarlet">Scarlet Letter</a><br/>
 
            <div ng-view></div>
            <hr />
@@ -7012,18 +7012,18 @@ function $RouteProvider(){
 
        <file name="book.html">
          controller: {{name}}<br />
-         Book Id: {{params.bookId}}<br />
+         BookController Id: {{params.bookId}}<br />
        </file>
 
        <file name="chapter.html">
          controller: {{name}}<br />
-         Book Id: {{params.bookId}}<br />
+         BookController Id: {{params.bookId}}<br />
          Chapter Id: {{params.chapterId}}
        </file>
 
        <file name="script.js">
          angular.module('ngView', [], function($routeProvider, $locationProvider) {
-           $routeProvider.when('/Book/:bookId', {
+           $routeProvider.when('/BookController/:bookId', {
              templateUrl: 'book.html',
              controller: BookCntl,
              resolve: {
@@ -7035,7 +7035,7 @@ function $RouteProvider(){
                }
              }
            });
-           $routeProvider.when('/Book/:bookId/ch/:chapterId', {
+           $routeProvider.when('/BookController/:bookId/ch/:chapterId', {
              templateUrl: 'chapter.html',
              controller: ChapterCntl
            });
@@ -7066,14 +7066,14 @@ function $RouteProvider(){
            element('a:contains("Moby: Ch1")').click();
            var content = element('.doc-example-live [ng-view]').text();
            expect(content).toMatch(/controller\: ChapterCntl/);
-           expect(content).toMatch(/Book Id\: Moby/);
+           expect(content).toMatch(/BookController Id\: Moby/);
            expect(content).toMatch(/Chapter Id\: 1/);
 
            element('a:contains("Scarlet")').click();
            sleep(2); // promises are not part of scenario waiting
            content = element('.doc-example-live [ng-view]').text();
            expect(content).toMatch(/controller\: BookCntl/);
-           expect(content).toMatch(/Book Id\: Scarlet/);
+           expect(content).toMatch(/BookController Id\: Scarlet/);
          });
        </file>
      </example>
@@ -13755,11 +13755,11 @@ var ngTranscludeDirective = ngDirective({
       <file name="index.html">
         <div ng-controller="MainCntl">
           Choose:
-          <a href="Book/Moby">Moby</a> |
-          <a href="Book/Moby/ch/1">Moby: Ch1</a> |
-          <a href="Book/Gatsby">Gatsby</a> |
-          <a href="Book/Gatsby/ch/4?key=value">Gatsby: Ch4</a> |
-          <a href="Book/Scarlet">Scarlet Letter</a><br/>
+          <a href="BookController/Moby">Moby</a> |
+          <a href="BookController/Moby/ch/1">Moby: Ch1</a> |
+          <a href="BookController/Gatsby">Gatsby</a> |
+          <a href="BookController/Gatsby/ch/4?key=value">Gatsby: Ch4</a> |
+          <a href="BookController/Scarlet">Scarlet Letter</a><br/>
 
           <div ng-view></div>
           <hr />
@@ -13774,22 +13774,22 @@ var ngTranscludeDirective = ngDirective({
 
       <file name="book.html">
         controller: {{name}}<br />
-        Book Id: {{params.bookId}}<br />
+        BookController Id: {{params.bookId}}<br />
       </file>
 
       <file name="chapter.html">
         controller: {{name}}<br />
-        Book Id: {{params.bookId}}<br />
+        BookController Id: {{params.bookId}}<br />
         Chapter Id: {{params.chapterId}}
       </file>
 
       <file name="script.js">
         angular.module('ngView', [], function($routeProvider, $locationProvider) {
-          $routeProvider.when('/Book/:bookId', {
+          $routeProvider.when('/BookController/:bookId', {
             templateUrl: 'book.html',
             controller: BookCntl
           });
-          $routeProvider.when('/Book/:bookId/ch/:chapterId', {
+          $routeProvider.when('/BookController/:bookId/ch/:chapterId', {
             templateUrl: 'chapter.html',
             controller: ChapterCntl
           });
@@ -13820,13 +13820,13 @@ var ngTranscludeDirective = ngDirective({
           element('a:contains("Moby: Ch1")').click();
           var content = element('.doc-example-live [ng-view]').text();
           expect(content).toMatch(/controller\: ChapterCntl/);
-          expect(content).toMatch(/Book Id\: Moby/);
+          expect(content).toMatch(/BookController Id\: Moby/);
           expect(content).toMatch(/Chapter Id\: 1/);
 
           element('a:contains("Scarlet")').click();
           content = element('.doc-example-live [ng-view]').text();
           expect(content).toMatch(/controller\: BookCntl/);
-          expect(content).toMatch(/Book Id\: Scarlet/);
+          expect(content).toMatch(/BookController Id\: Scarlet/);
         });
       </file>
     </example>
