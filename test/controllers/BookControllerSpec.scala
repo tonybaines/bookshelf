@@ -3,18 +3,50 @@ package controllers
 import org.specs2.mutable._
 import play.api.test._
 import play.api.test.Helpers._
-import play.api.libs.json.{JsValue, Json}
+import play.api.libs.json._
+import models._
+import models.Protocol._
+import play.api.test.FakeApplication
+import play.api.libs.json._
+import play.api.mvc.AnyContentAsJson
+import play.api.http.HeaderNames
 
-class BookControllerSpec extends Specification{
+class BookControllerSpec extends Specification {
+
+
   "The Books controller" should {
+    val application = FakeApplication(additionalConfiguration = inMemoryDatabase("default"))
     "respond to the index Action" in {
-      val result = controllers.BookController.index()(FakeRequest())
-      status(result) must equalTo(OK)
+      running(application) {
+        val result = controllers.BookController.index()(FakeRequest())
+        status(result) must equalTo(OK)
 
-      // Parse the JSON string back into objects
-      val json = Json.parse(contentAsString(result)).as[List[Map[String, String]]]
+        // Parse the JSON string back into objects
+        val books = Json.parse(contentAsString(result)).as[List[Book]]
 
-      json(0)("title") must equalTo("The Tao of Pooh")
+        books(0).title must equalTo("The Tao of Pooh")
+      }
+    }
+
+    "respond to the save Action" in {
+      running(application) {
+        val requestBody: JsValue = JsObject(List(
+          "id" -> JsNumber(0),
+          "title" -> JsString("The Dunwich Horror")
+        ))
+
+        val request = FakeRequest()
+          .copy(body = requestBody)
+          .withHeaders(HeaderNames.CONTENT_TYPE -> "application/json")
+
+        val result = controllers.BookController.save()(request)
+
+        status(result) must equalTo(CREATED)
+        val newBook = Json.parse(contentAsString(result)).as[Book]
+
+        newBook.title must equalTo("The Dunwich Horror")
+        newBook.id mustNotEqual (0)
+      }
     }
   }
 }

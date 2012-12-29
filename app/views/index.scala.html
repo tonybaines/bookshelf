@@ -1,7 +1,7 @@
 @main("Your Books") {
-    <ul>
-        <li ng-repeat="book in books">
-            {{book.title}}
-        </li>
-    </ul>
+    <table>
+        <tr ng-repeat="book in books">
+            <td class="bookTitle">{{book.title}}</td>
+        </tr>
+    </table>
 }

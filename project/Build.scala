@@ -10,6 +10,7 @@ object ApplicationBuild extends Build {
     val appDependencies = Seq(
       "org.seleniumhq.selenium" % "selenium-java" % "2.28.0" % "test",
       "org.squeryl" % "squeryl_2.9.0-1" % "0.9.4",
+      "com.google.code.findbugs" % "jsr305" % "1.3.+",
       "mysql" % "mysql-connector-java" % "5.1.21"
     )
 
