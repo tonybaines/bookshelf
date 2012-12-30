@@ -11,12 +11,14 @@ object Protocol {
     def writes(b: Book): JsValue = JsObject(
       List(
         "id" -> Json.toJson(b.id),
-        "title" -> Json.toJson(b.title)
+        "title" -> Json.toJson(b.title),
+        "author" -> Json.toJson(b.author)
       )
     )
     def reads(json: JsValue): Book = Book(
       (json \ "id").as[Long],
-      (json \ "title").as[String]
+      (json \ "title").as[String],
+      (json \ "author").as[String]
     )
   }
 }

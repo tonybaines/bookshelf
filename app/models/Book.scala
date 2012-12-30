@@ -21,5 +21,6 @@ object Book {
 
 case class Book(
   val id: Long = 0,
-  val title: String
+  val title: String,
+  val author: String
 ) extends KeyedEntity[Long]

@@ -15,7 +15,7 @@ object Global extends GlobalSettings{
 
   def insertTestData() {
     Book.deleteAll
-    Book.insert(Book(title="The Tao of Pooh"))
-    Book.insert(Book(title="The Te of Piglet"))
+    Book.insert(Book(title="The Tao of Pooh", author="Benjamin Hoff"))
+    Book.insert(Book(title="The Te of Piglet", author="Benjamin Hoff"))
   }
 }

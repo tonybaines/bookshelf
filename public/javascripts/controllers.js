@@ -8,10 +8,11 @@ function BooksCtrl($scope, $http) {
     refreshBooks()
 
     $scope.addBook = function() {
-        $http.put('/books', { title: $scope.bookTitle, id: 0 }).success(function(data) {
+        $http.put('/books', { title: $scope.bookTitle, author: $scope.bookAuthor, id: 0 }).success(function(data) {
             refreshBooks();
         })
         $scope.bookTitle = '';
+        $scope.bookAuthor = '';
     };
 
 
