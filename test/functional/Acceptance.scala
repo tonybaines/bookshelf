@@ -10,7 +10,7 @@ class Acceptance extends Specification {
     running(TestServer(3333), FIREFOX) { browser =>
       browser.goTo("http://localhost:3333/")
       browser.title() must equalTo("Your Books")
-      browser.await.atMost(20, TimeUnit.SECONDS).until(".bookTitle").hasSize(2)
+      browser.await.atMost(20, TimeUnit.SECONDS).until(".bookEntry").hasSize(2)
       browser.$(".bookTitle").getTexts().get(0) must equalTo("The Tao of Pooh")
     }
   }

@@ -11,10 +11,8 @@ import play.api.http.HeaderNames
 import org.specs2.matcher.ThrownExpectations
 
 class BookControllerSpec extends Specification with ThrownExpectations {
-  isolated // fails from sbt otherwise
-  val application = FakeApplication(additionalConfiguration = inMemoryDatabase("default"))
-
-
+//  isolated // fails from sbt otherwise, fails in IDEA when enabled :(
+  val application = FakeApplication()
   "The Books controller" should {
     "respond to the index Action" in {
       running(application) {
@@ -32,7 +30,8 @@ class BookControllerSpec extends Specification with ThrownExpectations {
       running(application) {
         val requestBody: JsValue = JsObject(List(
           "id" -> JsNumber(0),
-          "title" -> JsString("The Dunwich Horror")
+          "title" -> JsString("The Dunwich Horror"),
+          "author" -> JsString("H P Lovecraft")
         ))
 
         val request = FakeRequest()
