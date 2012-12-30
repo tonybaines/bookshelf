@@ -3,19 +3,19 @@ package controllers
 import org.specs2.mutable._
 import play.api.test._
 import play.api.test.Helpers._
-import play.api.libs.json._
 import models._
 import models.Protocol._
 import play.api.test.FakeApplication
 import play.api.libs.json._
-import play.api.mvc.AnyContentAsJson
 import play.api.http.HeaderNames
+import org.specs2.matcher.ThrownExpectations
 
-class BookControllerSpec extends Specification {
+class BookControllerSpec extends Specification with ThrownExpectations {
+  isolated // fails from sbt otherwise
+  val application = FakeApplication(additionalConfiguration = inMemoryDatabase("default"))
 
 
   "The Books controller" should {
-    val application = FakeApplication(additionalConfiguration = inMemoryDatabase("default"))
     "respond to the index Action" in {
       running(application) {
         val result = controllers.BookController.index()(FakeRequest())
