@@ -1,7 +1,13 @@
 @main("Your Books") {
     <table>
         <tr ng-repeat="book in books">
+            <td class="bookId">{{book.id}}</td>
             <td class="bookTitle">{{book.title}}</td>
         </tr>
     </table>
+    <form ng-submit="addBook()">
+        <input type="text" ng-model="bookTitle" size="30"
+            placeholder="new book title">
+        <input class="btn-primary" type="submit" value="add">
+    </form>
 }
