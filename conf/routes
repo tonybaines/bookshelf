@@ -2,11 +2,9 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
-# Home page
 GET     /                           controllers.Application.index
 GET     /shelf                      controllers.BookController.index
-
-# Bookshelf
+POST    /shelf                      controllers.BookController.save
 GET     /books                      controllers.BookController.index
 PUT     /books                      controllers.BookController.save
 

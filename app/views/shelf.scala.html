@@ -16,9 +16,13 @@
         </tbody>
         <tfoot>
         <tr>
-            <td><input class="btn-primary" type="submit" value="add"></td>
-            <td><input type="text" size="30"></td>
-            <td><input type="text" size="30"></td>
+            <form action="@routes.BookController.save()" method="POST">
+                <td>
+                    <button class="btn-primary" type="submit">add</button>
+                </td>
+                <td><input name="bookTitle" id="bookTitle" type="text" size="30"></td>
+                <td><input name="bookAuthor" id="bookAuthor" type="text" size="30"></td>
+            </form>
         </tr>
         </tfoot>
     </table>

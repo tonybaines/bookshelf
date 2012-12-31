@@ -9,14 +9,14 @@ import play.api.test.FakeApplication
 import play.api.libs.json._
 import play.api.http.HeaderNames
 import org.specs2.matcher.ThrownExpectations
-import play.api.mvc.AnyContent
+import play.api.mvc.{AnyContent, Request}
 
 class BookControllerSpec extends Specification with ThrownExpectations {
   isolated // fails from sbt otherwise, fails in IDEA when enabled :(
 
   val application = FakeApplication()
-  "The Books controller" should {
-    "respond to the index Action for JSON requests" in {
+  "The Books controller index Action" should {
+    "respond to JSON requests" in {
       running(application) {
         val jsonRequest: FakeRequest[AnyContent] = FakeRequest().withHeaders(HeaderNames.ACCEPT -> "application/json")
         val result = controllers.BookController.index()(jsonRequest)
@@ -29,7 +29,7 @@ class BookControllerSpec extends Specification with ThrownExpectations {
       }
     }
 
-    "respond to the index action for HTML requests" in {
+    "respond to HTML requests" in {
       running(application) {
         val htmlRequest: FakeRequest[AnyContent] = FakeRequest().withHeaders(HeaderNames.ACCEPT -> "text/html")
         val result = controllers.BookController.index()(htmlRequest)
@@ -40,25 +40,58 @@ class BookControllerSpec extends Specification with ThrownExpectations {
       }
     }
 
-    "respond to the save Action for JSON requests" in {
+    "reject unknown 'Accepts'" in {
       running(application) {
-        val requestBody: JsValue = JsObject(List(
+        val stupidRequest: FakeRequest[AnyContent] = FakeRequest().withHeaders(HeaderNames.ACCEPT -> "non/existant")
+        val result = controllers.BookController.index()(stupidRequest)
+
+        status(result) must equalTo(UNSUPPORTED_MEDIA_TYPE)
+      }
+    }
+  }
+
+  "The Books controller save Action" should {
+    "respond to JSON requests" in {
+      running(application) {
+        val requestBody = JsObject(List(
           "id" -> JsNumber(0),
           "title" -> JsString("The Dunwich Horror"),
           "author" -> JsString("H P Lovecraft")
         ))
 
-        val request = FakeRequest()
-          .copy(body = requestBody)
+        val jsonRequest = FakeRequest()
+          .withJsonBody(requestBody)
           .withHeaders(HeaderNames.ACCEPT -> "application/json")
 
-        val result = controllers.BookController.save()(request)
+        val result = controllers.BookController.save()(jsonRequest)
 
         status(result) must equalTo(CREATED)
         val newBook = Json.parse(contentAsString(result)).as[Book]
 
         newBook.title must equalTo("The Dunwich Horror")
         newBook.id mustNotEqual (0)
+      }
+    }
+    "respond to form-submission requests" in {
+      running(application) {
+        val formRequest = FakeRequest()
+          .withFormUrlEncodedBody("bookAuthor" -> "H P Lovecraft", "bookTitle" -> "At the Mountains of Madness")
+          .withHeaders(HeaderNames.ACCEPT -> "text/html")
+
+        val result = controllers.BookController.save()(formRequest)
+
+        status(result) must equalTo(OK)
+        contentType(result) must beSome("text/html")
+        contentAsString(result) must contain("At the Mountains of Madness")
+      }
+    }
+
+    "reject unknown 'Accepts'" in {
+      running(application) {
+        val stupidRequest: FakeRequest[AnyContent] = FakeRequest().withHeaders(HeaderNames.ACCEPT -> "non/existant")
+        val result = controllers.BookController.save()(stupidRequest)
+
+        status(result) must equalTo(UNSUPPORTED_MEDIA_TYPE)
       }
     }
   }
