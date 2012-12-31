@@ -1,4 +1,18 @@
-@main("Your Books") {
+<!DOCTYPE html>
+
+<html ng-app>
+    <head>
+        <title>Your Books</title>
+        <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/main.css")">
+        <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
+        <script src="@routes.Assets.at("javascripts/jquery-1.7.1.min.js")" type="text/javascript"></script>
+
+        <!-- Angular.js includes -->
+        <script src="@routes.Assets.at("javascripts/lib/angular/angular.js")" type="text/javascript"></script>
+        <script src="@routes.Assets.at("javascripts/app.js")" type="text/javascript"></script>
+        <script src="@routes.Assets.at("javascripts/controllers.js")" type="text/javascript"></script>
+    </head>
+    <body ng-controller="BooksCtrl">
     <form ng-submit="addBook()">
         <table>
             <thead>
@@ -22,4 +36,5 @@
             </tfoot>
         </table>
     </form>
-}
+    </body>
+</html>

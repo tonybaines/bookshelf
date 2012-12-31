@@ -1,0 +1,25 @@
+@(books: Seq[Book])(implicit lang: Lang)
+
+@main("Your Books") {
+    <table>
+        <thead>
+            <tr><th>ID</th><th>Title</th><th>Author</th></tr>
+        </thead>
+        <tbody>
+            @for(book <- books) {
+            <tr class="bookEntry">
+                <td>@book.id</td>
+                <td class="bookTitle">@book.title</td>
+                <td>@book.author</td>
+            </tr>
+            }
+        </tbody>
+        <tfoot>
+        <tr>
+            <td><input class="btn-primary" type="submit" value="add"></td>
+            <td><input type="text" size="30"></td>
+            <td><input type="text" size="30"></td>
+        </tr>
+        </tfoot>
+    </table>
+}

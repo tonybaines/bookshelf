@@ -4,6 +4,7 @@
 
 # Home page
 GET     /                           controllers.Application.index
+GET     /shelf                      controllers.BookController.index
 
 # Bookshelf
 GET     /books                      controllers.BookController.index

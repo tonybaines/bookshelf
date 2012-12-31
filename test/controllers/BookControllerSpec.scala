@@ -9,14 +9,17 @@ import play.api.test.FakeApplication
 import play.api.libs.json._
 import play.api.http.HeaderNames
 import org.specs2.matcher.ThrownExpectations
+import play.api.mvc.AnyContent
 
 class BookControllerSpec extends Specification with ThrownExpectations {
-//  isolated // fails from sbt otherwise, fails in IDEA when enabled :(
+  isolated // fails from sbt otherwise, fails in IDEA when enabled :(
+
   val application = FakeApplication()
   "The Books controller" should {
-    "respond to the index Action" in {
+    "respond to the index Action for JSON requests" in {
       running(application) {
-        val result = controllers.BookController.index()(FakeRequest())
+        val jsonRequest: FakeRequest[AnyContent] = FakeRequest().withHeaders(HeaderNames.ACCEPT -> "application/json")
+        val result = controllers.BookController.index()(jsonRequest)
         status(result) must equalTo(OK)
 
         // Parse the JSON string back into objects
@@ -26,7 +29,18 @@ class BookControllerSpec extends Specification with ThrownExpectations {
       }
     }
 
-    "respond to the save Action" in {
+    "respond to the index action for HTML requests" in {
+      running(application) {
+        val htmlRequest: FakeRequest[AnyContent] = FakeRequest().withHeaders(HeaderNames.ACCEPT -> "text/html")
+        val result = controllers.BookController.index()(htmlRequest)
+
+        status(result) must equalTo(OK)
+        contentType(result) must beSome("text/html")
+        contentAsString(result) must contain("The Tao of Pooh")
+      }
+    }
+
+    "respond to the save Action for JSON requests" in {
       running(application) {
         val requestBody: JsValue = JsObject(List(
           "id" -> JsNumber(0),
@@ -36,7 +50,7 @@ class BookControllerSpec extends Specification with ThrownExpectations {
 
         val request = FakeRequest()
           .copy(body = requestBody)
-          .withHeaders(HeaderNames.CONTENT_TYPE -> "application/json")
+          .withHeaders(HeaderNames.ACCEPT -> "application/json")
 
         val result = controllers.BookController.save()(request)
 

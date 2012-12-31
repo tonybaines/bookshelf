@@ -1,6 +1,6 @@
 function BooksCtrl($scope, $http) {
     refreshBooks = function() {
-        $http.get('/books').success(function(data) {
+        $http({method: 'GET', url: '/books', headers: {'Accept': 'application/json'}}).success(function(data) {
             $scope.books = data
         })
     }
