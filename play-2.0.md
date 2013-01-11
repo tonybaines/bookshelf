@@ -37,12 +37,14 @@ January 2013
 # Play 2.0
 
 * Compile-time checking + conventions
-* 
+* Internal App URL paths
+* Page Templates are functions
+* ... with typed parameters
 
 ---
 # Some interesting code here
 
-    !java
+    !scala
     class TheatreController 
                     extends AbstractActionController {
         protected $theatreMapper;
