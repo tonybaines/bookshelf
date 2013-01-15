@@ -4,6 +4,9 @@ import org.squeryl.{Query, KeyedEntity}
 import org.squeryl.PrimitiveTypeMode._
 import collection.Iterable
 
+/**
+ * Companion object acting as a DAO
+ */
 object Book {
   import Database.booksTable
   def deleteAll() = inTransaction {

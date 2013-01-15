@@ -5,6 +5,7 @@
 GET     /                           controllers.Application.index
 GET     /shelf                      controllers.BookController.index
 POST    /shelf                      controllers.BookController.save
+
 GET     /books                      controllers.BookController.index
 PUT     /books                      controllers.BookController.save
 
