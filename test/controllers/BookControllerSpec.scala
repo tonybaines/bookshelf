@@ -9,7 +9,7 @@ import play.api.test.FakeApplication
 import play.api.libs.json._
 import play.api.http.HeaderNames
 import org.specs2.matcher.ThrownExpectations
-import play.api.mvc.{AnyContent, Request}
+import play.api.mvc.{AnyContentAsEmpty, AnyContent, Request}
 
 class BookControllerSpec extends Specification with ThrownExpectations {
   isolated // fails from sbt otherwise, fails in IDEA when enabled :(
@@ -18,7 +18,7 @@ class BookControllerSpec extends Specification with ThrownExpectations {
   "The Books controller index Action" should {
     "respond to JSON requests" in {
       running(application) {
-        val jsonRequest: FakeRequest[AnyContent] = FakeRequest().withHeaders(HeaderNames.ACCEPT -> "application/json")
+        val jsonRequest: FakeRequest[AnyContentAsEmpty.type] = FakeRequest().withHeaders(HeaderNames.ACCEPT -> "application/json")
         val result = controllers.BookController.index()(jsonRequest)
         status(result) must equalTo(OK)
 
@@ -31,7 +31,7 @@ class BookControllerSpec extends Specification with ThrownExpectations {
 
     "respond to HTML requests" in {
       running(application) {
-        val htmlRequest: FakeRequest[AnyContent] = FakeRequest().withHeaders(HeaderNames.ACCEPT -> "text/html")
+        val htmlRequest: FakeRequest[AnyContentAsEmpty.type] = FakeRequest().withHeaders(HeaderNames.ACCEPT -> "text/html")
         val result = controllers.BookController.index()(htmlRequest)
 
         status(result) must equalTo(OK)
@@ -42,7 +42,7 @@ class BookControllerSpec extends Specification with ThrownExpectations {
 
     "reject unknown 'Accepts'" in {
       running(application) {
-        val stupidRequest: FakeRequest[AnyContent] = FakeRequest().withHeaders(HeaderNames.ACCEPT -> "non/existant")
+        val stupidRequest: FakeRequest[AnyContentAsEmpty.type] = FakeRequest().withHeaders(HeaderNames.ACCEPT -> "non/existant")
         val result = controllers.BookController.index()(stupidRequest)
 
         status(result) must equalTo(UNSUPPORTED_MEDIA_TYPE)
@@ -88,7 +88,7 @@ class BookControllerSpec extends Specification with ThrownExpectations {
 
     "reject unknown 'Accepts'" in {
       running(application) {
-        val stupidRequest: FakeRequest[AnyContent] = FakeRequest().withHeaders(HeaderNames.ACCEPT -> "non/existant")
+        val stupidRequest: FakeRequest[AnyContentAsEmpty.type] = FakeRequest().withHeaders(HeaderNames.ACCEPT -> "non/existant")
         val result = controllers.BookController.save()(stupidRequest)
 
         status(result) must equalTo(UNSUPPORTED_MEDIA_TYPE)

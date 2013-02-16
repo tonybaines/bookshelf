@@ -16,7 +16,6 @@ import play.api.test.Helpers._
 class EvolutionsTest extends Specification {
   "Evolutions" should {
     "be applied without errors" in {
-      evolutionFor("default")
       running(FakeApplication()) {
         DB.withConnection {
           implicit connection =>

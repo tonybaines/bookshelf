@@ -32,9 +32,10 @@ object BookController extends Controller {
       Ok(views.html.shelf(Book.findAll.toSeq))
     }
     else if (request.accepts("application/json")) {
-      val bookJson = request.body.asJson
-      val newBook = Book.insert(Json.fromJson(bookJson.getOrElse(JsNull)))
-      Created(Json.toJson(newBook))
+      Json.fromJson(request.body.asJson.getOrElse(JsNull)).asOpt match {
+          case Some(book: Book) => Created(Json.toJson(Book.insert(book)))
+          case None => BadRequest("Whoops")
+      }
     }
     else UnsupportedMediaType("No supported content-types from the Accepts list: " + request.accept.mkString(","))
   }

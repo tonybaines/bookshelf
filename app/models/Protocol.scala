@@ -1,6 +1,7 @@
 package models
 
-import play.api.libs.json.{Json, JsObject, JsValue, Format}
+import play.api.libs.json._
+import play.api.libs.json.JsObject
 
 /**
  * Container for the play.api.libs.json.Format implicit converters
@@ -15,10 +16,10 @@ object Protocol {
         "author" -> Json.toJson(b.author)
       )
     )
-    def reads(json: JsValue): Book = Book(
+    def reads(json: JsValue): JsResult[Book] = JsSuccess(Book(
       (json \ "id").as[Long],
       (json \ "title").as[String],
       (json \ "author").as[String]
-    )
+    ))
   }
 }
