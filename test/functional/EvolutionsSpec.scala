@@ -13,7 +13,7 @@ import play.api.test.Helpers._
  *
  * Verify that database evolutions work
  */
-class EvolutionsTest extends Specification {
+class EvolutionsSpec extends Specification {
   "Evolutions" should {
     "be applied without errors" in {
       running(FakeApplication()) {
